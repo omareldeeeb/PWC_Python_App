@@ -52,7 +52,7 @@ docker push <aws_account_id>.dkr.ecr.<region>.amazonaws.com/python-app:latest
 #################################################################################################################
 
 ## Setting Up Amazon EKS Cluster
-1. Create the VPC and the Subnets 
+# Create the VPC and the Subnets 
 
 module "vpc" {
 source = "terraform-aws-modules/vpc/aws"
@@ -69,7 +69,6 @@ tags = {
 }
 }
 
-2. Create the EKS 
 # EKS Creation on AWS
 
 module "eks" {
@@ -123,47 +122,47 @@ terraform apply
 
 #########################################################################################################
 
-Creating the manifests files
+# Creating the manifests files (Deployment.yaml & Service.yaml)
 
 1. Create the deployment.yaml file
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-name: pwc-python-app
-labels:
-    app: pwc-python-app
-spec:
-template:
-    metadata:
-    labels:
-        app: pwc-python-app
-    spec:
-    containers:
-    - name: python-container
-        image: 586710795513.dkr.ecr.eu-west-1.amazonaws.com/default/python:latest
-        ports:
-        - containerPort: 80
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+        name: pwc-python-app
+        labels:
+            app: pwc-python-app
+        spec:
+        template:
+            metadata:
+            labels:
+                app: pwc-python-app
+            spec:
+            containers:
+            - name: python-container
+                image: 586710795513.dkr.ecr.eu-west-1.amazonaws.com/default/python:latest
+                ports:
+                - containerPort: 80
 
-replicas: 2
-selector:
-    matchLabels:
-    app: pwc-python-app
+        replicas: 2
+        selector:
+            matchLabels:
+            app: pwc-python-app
 
 2. Create the Service.yaml file
 
-apiVersion: v1 
-kind: Service
-metadata:
-name: pwc-python-app
-spec:
-type: NodePort
-ports:
-- port: 80
-    targetPort: 80
-    NodePort: 30008
-selector:
-    app: pwc-python-app
+        apiVersion: v1 
+        kind: Service
+        metadata:
+        name: pwc-python-app
+        spec:
+        type: NodePort
+        ports:
+        - port: 80
+            targetPort: 80
+            NodePort: 30008
+        selector:
+            app: pwc-python-app
 
 ###################################################################################
 
