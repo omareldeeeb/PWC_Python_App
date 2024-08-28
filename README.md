@@ -193,4 +193,5 @@ Cleanup
         kubectl delete -f service.yaml
 
 2. Destroy the EKS cluster using Terraform
+        
         terraform destroy
