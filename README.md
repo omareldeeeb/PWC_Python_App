@@ -156,7 +156,7 @@ docker push <aws_account_id>.dkr.ecr.<region>.amazonaws.com/python-app:latest
         metadata:
         name: pwc-python-app
         spec:
-        type: NodePort
+        type: LoadBalancer
         ports:
         - port: 80
             targetPort: 80
